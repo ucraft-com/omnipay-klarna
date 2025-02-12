@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Uc\Omnipay\Klarna;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Common\Message\AbstractRequest;
-use Uc\Omnipay\Klarna\Messages\AcknowledgeRequest;
-use Uc\Omnipay\Klarna\Messages\CaptureRequest;
-use Uc\Omnipay\Klarna\Messages\CreateSessionRequest;
-use Uc\Omnipay\Klarna\Messages\FetchHPPSessionRequest;
-use Uc\Omnipay\Klarna\Messages\FetchTransactionRequest;
-use Uc\Omnipay\Klarna\Messages\HPPSessionRequest;
-use Uc\Omnipay\Klarna\Messages\RefundRequest;
-use Uc\Omnipay\Klarna\Traits\GatewayParameters;
+use Omnipay\Common\Message\RequestInterface;
+use Uc\Omnipay\Klarna\Message\CancelRequest;
+use Uc\Omnipay\Klarna\Message\CaptureRequest;
+use Uc\Omnipay\Klarna\Message\FetchHPPSessionRequest;
+use Uc\Omnipay\Klarna\Message\FetchTransactionRequest;
+use Uc\Omnipay\Klarna\Message\HPPSessionRequest;
+use Uc\Omnipay\Klarna\Message\PaymentSessionRequest;
+use Uc\Omnipay\Klarna\Message\RefundRequest;
 
 /**
  * Klarna gateway.
@@ -22,8 +21,6 @@ use Uc\Omnipay\Klarna\Traits\GatewayParameters;
  */
 class Gateway extends AbstractGateway
 {
-    use GatewayParameters;
-
     public function getName(): string
     {
         return 'Klarna Payments';
@@ -42,21 +39,81 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $parameters
+     * @param string $region
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return $this
      */
-    public function createSession(array $parameters = []): AbstractRequest
+    public function setRegion(string $region): self
     {
-        return $this->createRequest(CreateSessionRequest::class, $parameters);
+        $this->setParameter('region', $region);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegion(): string
+    {
+        return $this->getParameter('region');
+    }
+
+    /**
+     * @param string $secret
+     *
+     * @return $this
+     */
+    public function setSecret(string $secret): self
+    {
+        $this->setParameter('secret', $secret);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecret(): string
+    {
+        return $this->getParameter('secret');
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return $this
+     */
+    public function setUsername(string $username): self
+    {
+        $this->setParameter('username', $username);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->getParameter('username');
     }
 
     /**
      * @param array $parameters
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return \Uc\Omnipay\Klarna\Message\AbstractRequest
      */
-    public function createHPPSession(array $parameters = []): AbstractRequest
+    public function createPaymentSession(array $parameters = []): RequestInterface
+    {
+        return $this->createRequest(PaymentSessionRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Uc\Omnipay\Klarna\Message\AbstractRequest
+     */
+    public function createHPPSession(array $parameters = []): RequestInterface
     {
         return $this->createRequest(HPPSessionRequest::class, $parameters);
     }
@@ -64,30 +121,19 @@ class Gateway extends AbstractGateway
     /**
      * @param array $parameters
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return \Omnipay\Common\Message\RequestInterface
      */
-    public function fetchHPPSession(array $parameters = []): AbstractRequest
+    public function fetchHPPSession(array $parameters = []): RequestInterface
     {
         return $this->createRequest(FetchHPPSessionRequest::class, $parameters);
     }
 
-
     /**
      * @param array $parameters
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return \Omnipay\Common\Message\RequestInterface
      */
-    public function fetchTransaction(array $parameters = []): AbstractRequest
-    {
-        return $this->createRequest(FetchTransactionRequest::class, $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
-     */
-    public function capture(array $parameters = []): AbstractRequest
+    public function capture(array $parameters = []): RequestInterface
     {
         return $this->createRequest(CaptureRequest::class, $parameters);
     }
@@ -95,20 +141,30 @@ class Gateway extends AbstractGateway
     /**
      * @param array $parameters
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return \Omnipay\Common\Message\RequestInterface
      */
-    public function refund(array $parameters = []): AbstractRequest
+    public function fetchTransaction(array $parameters = []): RequestInterface
+    {
+        return $this->createRequest(FetchTransactionRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\RequestInterface
+     */
+    public function refund(array $parameters = []): RequestInterface
     {
         return $this->createRequest(RefundRequest::class, $parameters);
     }
 
     /**
-     * @param array $options
+     * @param array $parameters
      *
-     * @return \Uc\Omnipay\Klarna\Messages\AbstractRequest
+     * @return \Omnipay\Common\Message\RequestInterface
      */
-    public function acknowledge(array $options = []): AbstractRequest
+    public function cancel(array $parameters = []): RequestInterface
     {
-        return $this->createRequest(AcknowledgeRequest::class, $options);
+        return $this->createRequest(CancelRequest::class, $parameters);
     }
 }

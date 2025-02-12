@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Uc\Omnipay\Klarna\Messages;
+namespace Uc\Omnipay\Klarna\Message;
 
 class RefundResponse extends AbstractResponse
 {

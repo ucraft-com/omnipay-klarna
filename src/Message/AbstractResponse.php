@@ -2,25 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Uc\Omnipay\Klarna\Messages;
+namespace Uc\Omnipay\Klarna\Message;
 
 use Omnipay\Common\Message\AbstractResponse as BaseAbstractResponse;
 
 abstract class AbstractResponse extends BaseAbstractResponse
 {
-    /**
-     * @param \Uc\Omnipay\Klarna\Messages\AbstractRequest $request
-     * @param array                                       $data
-     */
     public function __construct(AbstractRequest $request, array $data)
     {
         parent::__construct($request, $data);
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->data['error_code'] ?? null;
     }

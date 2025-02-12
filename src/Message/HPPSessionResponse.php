@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Uc\Omnipay\Klarna\Messages;
+namespace Uc\Omnipay\Klarna\Message;
 
 class HPPSessionResponse extends AbstractResponse
 {
@@ -36,6 +36,30 @@ class HPPSessionResponse extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getQrCodeUrl(): ?string
+    {
+        return $this->data['qr_code_url'] ?? null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDistributionUrl(): ?string
+    {
+        return $this->data['distribution_url'] ?? null;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getDistributionModule(): ?array
+    {
+        return $this->data['distribution_module'] ?? null;
+    }
+
+    /**
      * @return string
      */
     public function getRedirectMethod(): string
@@ -63,6 +87,9 @@ class HPPSessionResponse extends AbstractResponse
             $response['session_id'] = $this->getSessionId();
             $response['session_url'] = $this->getSessionUrl();
             $response['expires_at'] = $this->getExpiresAt();
+            $response['qr_code_url'] = $this->getQrCodeUrl();
+            $response['distribution_url'] = $this->getDistributionUrl();
+            $response['distribution_module'] = $this->getDistributionModule();
         }
 
         return $response;

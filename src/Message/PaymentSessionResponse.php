@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Uc\Omnipay\Klarna\Messages;
+namespace Uc\Omnipay\Klarna\Message;
 
-class AcknowledgeResponse extends AbstractResponse
+class PaymentSessionResponse extends AbstractResponse
 {
-    public function __construct(AcknowledgeRequest $request, array $data)
+    protected string|null $paymentSessionUrl = null;
+
+    public function __construct(PaymentSessionRequest $request, array $data)
     {
         parent::__construct($request, $data);
+
+        $this->setPaymentSessionUrl($request);
     }
 
     /**
@@ -28,11 +32,23 @@ class AcknowledgeResponse extends AbstractResponse
     }
 
     /**
+     * @param \Uc\Omnipay\Klarna\Message\PaymentSessionRequest $request
+     *
+     * @return void
+     */
+    public function setPaymentSessionUrl(PaymentSessionRequest $request): void
+    {
+        if ($this->isSuccessful()) {
+            $this->paymentSessionUrl = $request->getEndpoint().'/'.$this->getSessionId() ?? null;
+        }
+    }
+
+    /**
      * @return string|null
      */
     public function getPaymentSessionUrl(): ?string
     {
-        return $this->data['payment_session_url'] ?? null;
+        return  $this->paymentSessionUrl;
     }
 
     /**
