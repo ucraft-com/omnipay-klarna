@@ -103,4 +103,22 @@ final class Item extends baseItem implements ItemInterface
     {
         return $this->getParameter('type');
     }
+
+    /**
+     * @param float $unitPrice
+     *
+     * @return void
+     */
+    public function setUnitPrice(float $unitPrice): void
+    {
+        $this->setParameter('unit_price', $unitPrice);
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getUnitPrice(): ?float
+    {
+        return $this->getParameter('unit_price');
+    }
 }

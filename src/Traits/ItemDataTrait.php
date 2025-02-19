@@ -19,28 +19,21 @@ trait ItemDataTrait
         $orderLines = [];
 
         foreach ($items as $item) {
-            $taxRate = $item->getTaxRate();
-            $price = null === $item->getPrice() ? $this->convertToMoney(0) : $this->convertToMoney($item->getPrice());
-            $totalTaxAmount = null === $item->getTotalTaxAmount()
-                ? $this->convertToMoney(0)
-                : $this->convertToMoney($item->getTotalTaxAmount());
-            $totalDiscountAmount = null === $item->getTotalDiscountAmount()
-                ? $this->convertToMoney(0)
-                : $this->convertToMoney($item->getTotalDiscountAmount());
-            $totalAmount = null === $item->getTotalAmount()
-                ? $price->multiply($item->getQuantity())->subtract($totalDiscountAmount)
-                : $this->convertToMoney($item->getTotalAmount());
+            $totalTaxAmount = $this->convertToMoney($item->getTotalTaxAmount());
+            $totalDiscountAmount = $this->convertToMoney($item->getTotalDiscountAmount());
+            $totalAmount = $this->convertToMoney($item->getTotalAmount());
+            $unitPrice = $this->convertToMoney($item->getUnitPrice());
 
             $orderLines[] = [
-                'type' => $item->getType(),
-                'name' => $item->getName(),
-                'quantity' => $item->getQuantity(),
-                'tax_rate' => null === $taxRate ? 0 : (int) ($item->getTaxRate() * 100),
-                'total_amount' => (int) $totalAmount->getAmount(),
-                'total_tax_amount' => (int) $totalTaxAmount->getAmount(),
-                'total_discount_amount' => (int) $totalDiscountAmount->getAmount(),
-                'unit_price' => (int) $price->getAmount(),
-                'merchant_data' => $item->getMerchantData(),
+                'type'                  => $item->getType(),
+                'name'                  => $item->getName(),
+                'quantity'              => $item->getQuantity(),
+                'tax_rate'              => (int)($item->getTaxRate() * 100),
+                'unit_price'            => (int)$unitPrice->getAmount(),
+                'total_amount'          => (int)$totalAmount->getAmount(),
+                'total_discount_amount' => (int)$totalDiscountAmount->getAmount(),
+                'total_tax_amount'      => (int)$totalTaxAmount->getAmount(),
+                'merchant_data'         => $item->getMerchantData(),
             ];
         }
 
