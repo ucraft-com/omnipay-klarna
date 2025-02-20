@@ -26,7 +26,7 @@ class FetchTransactionResponse extends AbstractResponse
      */
     public function isCapture(): bool
     {
-        return $this->getStatus() === OrderStatus::CAPTURED;
+        return $this->getStatus() === OrderStatus::CAPTURED->value;
     }
 
     /**
@@ -34,7 +34,7 @@ class FetchTransactionResponse extends AbstractResponse
      */
     public function isCancelled(): bool
     {
-        return $this->getStatus() === OrderStatus::CANCELLED;
+        return $this->getStatus() === OrderStatus::CANCELLED->value;
     }
 
     /**
@@ -42,7 +42,7 @@ class FetchTransactionResponse extends AbstractResponse
      */
     public function isClosed(): bool
     {
-        return $this->getStatus() === OrderStatus::CLOSED;
+        return $this->getStatus() === OrderStatus::CLOSED->value;
     }
 
     /**
