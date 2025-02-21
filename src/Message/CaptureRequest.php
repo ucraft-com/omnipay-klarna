@@ -66,7 +66,7 @@ class CaptureRequest extends AbstractOrderRequest
         $data = $this->getResponseBody($httpResponse);
 
         try {
-            $data['capture_id'] = $httpResponse->getHeader('Capture-Id') ?? null;
+            $data['capture_id'] = $httpResponse->getHeaderLine('Capture-Id') ?? null;
         } catch (Throwable) {
             $data['capture_id'] = null;
         }

@@ -12,9 +12,9 @@ class CaptureResponse extends AbstractResponse
     }
 
     /**
-     * @return array|null
+     * @return string|null
      */
-    public function getCaptureId(): ?array
+    public function getCaptureId(): ?string
     {
         return $this->data['capture_id'] ?? null;
     }

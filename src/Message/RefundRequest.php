@@ -48,7 +48,7 @@ class RefundRequest extends AbstractRequest
         $data = $this->getResponseBody($httpResponse);
 
         try {
-            $data['refund_id'] = $httpResponse->getHeader('Refund-Id') ?? null;
+            $data['refund_id'] = $httpResponse->getHeaderLine('Refund-Id') ?? null;
         } catch (Throwable) {
             $data['refund_id'] = null;
         }
