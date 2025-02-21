@@ -25,6 +25,7 @@ trait ItemDataTrait
             $unitPrice = $this->convertToMoney($item->getUnitPrice());
 
             $orderLines[] = [
+                'reference'             => $item->getReference(),
                 'type'                  => $item->getType(),
                 'name'                  => $item->getName(),
                 'quantity'              => $item->getQuantity(),

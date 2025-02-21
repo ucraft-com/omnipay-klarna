@@ -50,4 +50,9 @@ interface ItemInterface extends \Omnipay\Common\ItemInterface
      * @return float|null
      */
     public function getUnitPrice(): ?float;
+
+    /**
+     * @return string|null
+     */
+    public function getReference(): ?string;
 }

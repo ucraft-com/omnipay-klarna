@@ -121,4 +121,22 @@ final class Item extends baseItem implements ItemInterface
     {
         return $this->getParameter('unit_price');
     }
+
+    /**
+     * @param string $reference
+     *
+     * @return void
+     */
+    public function setReference(string $reference): void
+    {
+        $this->setParameter('reference', $reference);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReference(): ?string
+    {
+        return $this->getParameter('reference');
+    }
 }
