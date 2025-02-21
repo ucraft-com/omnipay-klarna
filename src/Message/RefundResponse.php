@@ -12,9 +12,9 @@ class RefundResponse extends AbstractResponse
     }
 
     /**
-     * @return string|null
+     * @return array|null
      */
-    public function getRefundId(): ?string
+    public function getRefundId(): ?array
     {
         return $this->data['refund_id'] ?? null;
     }
